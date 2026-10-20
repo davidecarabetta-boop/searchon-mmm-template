@@ -10,6 +10,8 @@ Ogni modifica al template va registrata qui (regola in `CLAUDE.md`). Formato: da
   (4 catene × 1000 campioni, 156 settimane, 3 canali) in 174 s di campionamento, R-hat max 1,005, report corretto.
   Gli avvisi `PJRT_Api already exists` su Colab sono innocui. Resta da collaudare l'orchestrazione con la Colab CLI.
 - Notebook di test: output non bufferizzato durante la stima e filtro degli avvisi PJRT.
+- `setup.sh`: crea `.venv` con uv e Python 3.12 quando il Python di sistema è vecchio (Ubuntu 22.04 in WSL);
+  gcloud diventa facoltativo (serve solo al check locale). `docs/01_setup.md`: comandi completi per WSL.
 
 ## 0.1.0 · 2026-10-20
 

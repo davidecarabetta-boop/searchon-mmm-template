@@ -19,7 +19,9 @@ PY=""
 for c in python3.13 python3.12 python3.11 python3; do
   if command -v "$c" >/dev/null && "$c" -c 'import sys; sys.exit(sys.version_info < (3,11))'; then PY="$c"; break; fi
 done
-[ -n "$PY" ] && ok "Python: $($PY --version)" || ko "Serve Python 3.11 o superiore"
+if [ -n "$PY" ]; then ok "Python: $($PY --version)"
+elif command -v uv >/dev/null; then nota "Python di sistema sotto 3.11: uv scaricherà Python 3.12 per .venv"
+else ko "Serve Python 3.11+ oppure uv"; fi
 
 echo "2. Strumenti"
 command -v uv >/dev/null && ok "uv installato" || ko "uv mancante: curl -LsSf https://astral.sh/uv/install.sh | sh"
@@ -32,18 +34,20 @@ elif command -v uv >/dev/null; then
 else
   ko "Colab CLI mancante (serve uv)"
 fi
-command -v gcloud >/dev/null && ok "gcloud installato" || ko "gcloud mancante: https://cloud.google.com/sdk/docs/install"
+command -v gcloud >/dev/null && ok "gcloud installato" || nota "gcloud mancante: serve solo per /mmm-check-data in locale (https://cloud.google.com/sdk/docs/install)"
 git config user.email >/dev/null && ok "git user.email: $(git config user.email)" || ko "Impostare: git config --global user.email nome@searchon.it"
 
 echo "3. Ambiente Python locale (.venv)"
-if [ -n "$PY" ]; then
+if command -v uv >/dev/null; then
+  # uv gestisce anche la versione di Python: funziona pure su Ubuntu 22.04 (Python 3.10)
+  { [ -x .venv/bin/python ] || uv venv -q --python 3.12 .venv; } \
+    && uv pip install -q --python .venv/bin/python -r requirements-local.txt -e . \
+    && ok ".venv pronto (check dati e report)" || ko "Creazione .venv con uv non riuscita"
+elif [ -n "$PY" ]; then
   [ -d .venv ] || "$PY" -m venv .venv
   .venv/bin/pip install -q --upgrade pip >/dev/null
-  if .venv/bin/pip install -q -r requirements-local.txt && .venv/bin/pip install -q -e . ; then
-    ok ".venv pronto (check dati e report)"
-  else
-    ko "Installazione dipendenze locali non riuscita"
-  fi
+  .venv/bin/pip install -q -r requirements-local.txt && .venv/bin/pip install -q -e . \
+    && ok ".venv pronto (check dati e report)" || ko "Installazione dipendenze locali non riuscita"
 fi
 
 echo "4. Accessi Google"

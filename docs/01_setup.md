@@ -15,12 +15,23 @@ Da fare una volta per computer. Vale per chiunque nel team (es. Davide e Frances
 
 ## Windows
 
-I PC SearchOn sono Windows: la pipeline va usata dentro WSL.
+I PC SearchOn sono Windows: la pipeline va usata dentro WSL (Ubuntu). Da un terminale Ubuntu:
 
-1. PowerShell come amministratore: `wsl --install -d Ubuntu`, poi riavviare.
-2. Dentro Ubuntu: installare git, Python 3.11+, uv, gcloud e Claude Code (versione Linux).
-3. Clonare il repository dentro il filesystem di WSL (es. `~/progetti/`), non in `C:\`: è più veloce e
-   non rompe i permessi degli script. Il file `.gitattributes` forza i fine riga Unix sugli script.
+```bash
+sudo apt update && sudo apt install -y git curl
+curl -LsSf https://astral.sh/uv/install.sh | sh            # uv: gestisce anche Python
+curl -fsSL https://claude.ai/install.sh | bash              # Claude Code (versione Linux)
+source ~/.bashrc
+mkdir -p ~/progetti && cd ~/progetti
+cp -r /mnt/c/Users/<utente>/Documents/GitHub/searchon-mmm-template .   # oppure git clone del repository
+cd searchon-mmm-template && ./setup.sh
+```
+
+- Lavorare nel filesystem di WSL (`~/progetti/`), non in `/mnt/c/`: è più veloce e non rompe i permessi degli script.
+  Il file `.gitattributes` forza i fine riga Unix sugli script.
+- Non serve il Python di sistema: se è sotto 3.11 (es. Ubuntu 22.04), `setup.sh` fa scaricare a uv Python 3.12.
+- gcloud serve solo per `/mmm-check-data` in locale; il run completo su Colab non lo richiede.
+- Login: al primo `colab new` la CLI stampa un link; aprirlo nel browser di Windows e incollare il codice nel terminale.
 
 ## Passi
 
