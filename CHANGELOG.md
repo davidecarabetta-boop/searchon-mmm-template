@@ -6,6 +6,10 @@ Ogni modifica al template va registrata qui (regola in `CLAUDE.md`). Formato: da
 
 - `notebooks/test_gpu_mmm.ipynb`: notebook autonomo per collaudare Meridian su GPU Colab dal browser
   (codice del template incorporato, dati sintetici), utile finché la Colab CLI non è configurata in WSL.
+- Collaudo su GPU reale (2026-10-20, Colab T4): Meridian 2.1.0 usa la GPU tramite JAX, stima completa
+  (4 catene × 1000 campioni, 156 settimane, 3 canali) in 174 s di campionamento, R-hat max 1,005, report corretto.
+  Gli avvisi `PJRT_Api already exists` su Colab sono innocui. Resta da collaudare l'orchestrazione con la Colab CLI.
+- Notebook di test: output non bufferizzato durante la stima e filtro degli avvisi PJRT.
 
 ## 0.1.0 · 2026-10-20
 

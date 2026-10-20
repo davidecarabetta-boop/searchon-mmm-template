@@ -43,6 +43,14 @@ Senza Colab CLI (es. prima di configurare WSL) si può collaudare la stima su GP
 `notebooks/test_gpu_mmm.ipynb`: aprirlo in Colab (File → Apri blocco note → GitHub), runtime T4, Esegui tutto.
 Il notebook incorpora il codice di `src/` al momento della generazione: se `src/` cambia, va rigenerato.
 
+## Tempi di riferimento
+
+| Collaudo | GPU | Dati | Campionamento | Esito |
+|---|---|---|---|---|
+| 2026-10-20 | T4 | sintetici, 156 settimane, 3 canali, 2 controlli | 174 s (4×1000) | R-hat 1,005 |
+
+Con più canali o più settimane il tempo cresce: aggiungere qui i tempi dei run reali per tarare `timeout_minuti`.
+
 ## Aggiornare le versioni
 
 - Meridian è fissato in `requirements-colab.txt`. Prima di cambiare versione: collaudo sintetico, voce nel CHANGELOG
@@ -67,6 +75,7 @@ in un punto solo per tutti i progetti, si possono impacchettare in un plugin `se
 | MAPE di holdout alta | Cambi strutturali recenti, controlli mancanti | Rivedere controlli e periodo |
 | Sessione `mmm-*` rimasta aperta | Interruzione anomala dello script | `colab sessions`, poi `colab stop -s <nome>` |
 | `ATTENZIONE: nessuna GPU vista` | Runtime senza GPU o driver non caricati | Verificare `calcolo.gpu` e rilanciare |
+| `JaxRuntimeError: PJRT_Api already exists for device type cuda` | Colab ha già un plugin CUDA per JAX | Innocuo se subito dopo compare la GPU (`CudaDevice`) |
 
 ## Dati in UE
 
