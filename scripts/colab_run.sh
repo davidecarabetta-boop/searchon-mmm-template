@@ -12,7 +12,9 @@ set -euo pipefail
 CONFIG="${1:?Uso: scripts/colab_run.sh configs/<cliente>.yaml [--rapido]}"
 RAPIDO="${2:-}"
 REMOTE_ROOT="${MMM_REMOTE_ROOT:-/content}"   # sovrascrivibile solo per i test della pipeline
+export PATH="$HOME/.local/bin:$PATH"   # dove uv installa la Colab CLI
 COLAB="${COLAB_BIN:-colab}"
+command -v "$COLAB" >/dev/null || { echo "Colab CLI non trovata: lanciare ./setup.sh (o: uv tool install google-colab-cli)"; exit 1; }
 
 cd "$(dirname "$0")/.."
 PY="${PYTHON:-python3}"

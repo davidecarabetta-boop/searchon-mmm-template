@@ -26,6 +26,9 @@ else ko "Serve Python 3.11+ oppure uv"; fi
 echo "2. Strumenti"
 command -v uv >/dev/null && ok "uv installato" || ko "uv mancante: curl -LsSf https://astral.sh/uv/install.sh | sh"
 command -v claude >/dev/null && ok "Claude Code installato" || nota "Claude Code non trovato: https://docs.claude.com/en/docs/claude-code"
+# uv installa i comandi in ~/.local/bin: deve essere nel PATH, anche nei terminali futuri
+export PATH="$HOME/.local/bin:$PATH"
+command -v uv >/dev/null && uv tool update-shell >/dev/null 2>&1 || true
 if command -v colab >/dev/null; then
   ok "Colab CLI: $(colab version 2>/dev/null | head -1)"
 elif command -v uv >/dev/null; then
@@ -35,7 +38,11 @@ else
   ko "Colab CLI mancante (serve uv)"
 fi
 command -v gcloud >/dev/null && ok "gcloud installato" || nota "gcloud mancante: serve solo per /mmm-check-data in locale (https://cloud.google.com/sdk/docs/install)"
-git config user.email >/dev/null && ok "git user.email: $(git config user.email)" || ko "Impostare: git config --global user.email nome@searchon.it"
+EMAIL="$(git config user.email || true)"
+case "$EMAIL" in
+  ""|*tua@email*|*example*) ko "Impostare: git config --global user.email nome@searchon.it (finisce nella documentazione dei run)" ;;
+  *) ok "git user.email: $EMAIL" ;;
+esac
 
 echo "3. Ambiente Python locale (.venv)"
 if command -v uv >/dev/null; then

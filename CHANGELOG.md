@@ -12,6 +12,12 @@ Ogni modifica al template va registrata qui (regola in `CLAUDE.md`). Formato: da
 - Notebook di test: output non bufferizzato durante la stima e filtro degli avvisi PJRT.
 - `setup.sh`: crea `.venv` con uv e Python 3.12 quando il Python di sistema è vecchio (Ubuntu 22.04 in WSL);
   gcloud diventa facoltativo (serve solo al check locale). `docs/01_setup.md`: comandi completi per WSL.
+- Fix WSL: `colab: command not found` perché `~/.local/bin` non era nel PATH. `setup.sh` esegue
+  `uv tool update-shell`; `colab_run.sh` aggiunge `~/.local/bin` al PATH e dà un messaggio chiaro se la CLI manca.
+  `setup.sh` segnala anche un'email git segnaposto (`tua@email.com`).
+- Collaudo end-to-end con la Colab CLI riuscito (2026-10-20, WSL Ubuntu 24.04 sul PC di Davide, `--rapido`):
+  login Google, sessione T4, installazione, check, stima, download, report, registro run e chiusura della sessione.
+  L'architettura 0.1.0 è quindi verificata in tutte le sue parti tranne la lettura da una vista BigQuery reale.
 
 ## 0.1.0 · 2026-10-20
 
@@ -28,4 +34,4 @@ Prima versione del template.
 - Hook di fine turno che impone l'aggiornamento della documentazione.
 - Supporto Windows tramite WSL (`docs/01_setup.md`) e `.gitattributes` con fine riga Unix.
 - Collaudo: dati sintetici e finta Colab CLI (`tests/`). Pipeline completa verificata in locale su CPU;
-  la parte Colab reale va verificata al primo run su GPU.
+  la parte Colab reale è stata verificata dopo (vedi Non rilasciato).

@@ -47,7 +47,8 @@ Il notebook incorpora il codice di `src/` al momento della generazione: se `src/
 
 | Collaudo | GPU | Dati | Campionamento | Esito |
 |---|---|---|---|---|
-| 2026-10-20 | T4 | sintetici, 156 settimane, 3 canali, 2 controlli | 174 s (4×1000) | R-hat 1,005 |
+| 2026-10-20 | T4 (Colab CLI, `--rapido`) | sintetici, 156 settimane, 3 canali, 2 controlli | 2×100 campioni | R-hat 1,09 (atteso con `--rapido`) |
+| 2026-10-20 | T4 (notebook) | sintetici, 156 settimane, 3 canali, 2 controlli | 174 s (4×1000) | R-hat 1,005 |
 
 Con più canali o più settimane il tempo cresce: aggiungere qui i tempi dei run reali per tarare `timeout_minuti`.
 
@@ -73,6 +74,7 @@ in un punto solo per tutti i progetti, si possono impacchettare in un plugin `se
 | `Access Denied` su BigQuery | Ruoli mancanti | Vedi `01_setup.md`, passo 4 |
 | R-hat oltre soglia | Campionamento corto o modello mal specificato | Più campioni, meno canali, prior motivate |
 | MAPE di holdout alta | Cambi strutturali recenti, controlli mancanti | Rivedere controlli e periodo |
+| `colab: command not found` | `~/.local/bin` non è nel PATH (installazione con uv) | `uv tool update-shell && source ~/.bashrc`, oppure rilanciare `./setup.sh` |
 | Sessione `mmm-*` rimasta aperta | Interruzione anomala dello script | `colab sessions`, poi `colab stop -s <nome>` |
 | `ATTENZIONE: nessuna GPU vista` | Runtime senza GPU o driver non caricati | Verificare `calcolo.gpu` e rilanciare |
 | `JaxRuntimeError: PJRT_Api already exists for device type cuda` | Colab ha già un plugin CUDA per JAX | Innocuo se subito dopo compare la GPU (`CudaDevice`) |
