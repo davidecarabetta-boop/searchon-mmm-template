@@ -1,0 +1,39 @@
+# Configurazione di collaudo su dati sintetici (nessun dato cliente).
+# Genera i dati con: python tests/genera_dati_sintetici.py data/test/sintetico.csv
+
+cliente: test_sintetico
+valuta: EUR
+
+sorgente:
+  tipo: csv
+  percorso: data/test/sintetico.csv
+
+colonna_data: settimana
+
+periodo:
+  inizio: 2023-01-02
+  fine: 2025-12-29
+
+kpi:
+  colonna: revenue
+  tipo: revenue
+
+canali:
+  - nome: google_search
+    spesa: spend_google_search
+    impression: impr_google_search
+  - nome: meta
+    spesa: spend_meta
+    impression: impr_meta
+  - nome: youtube
+    spesa: spend_youtube
+    impression: impr_youtube
+
+controlli: [promo_flag, prezzo_medio]
+
+modello:
+  holdout_settimane: 12
+  max_lag_adstock: 8
+
+calcolo:
+  gpu: T4

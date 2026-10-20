@@ -1,0 +1,56 @@
+# Configurazione MMM di un cliente. Copiare in configs/<cliente>.yaml e compilare.
+# Riferimento completo dei campi: docs/02_configurazione.md
+
+cliente: cliente_a            # minuscolo, senza spazi: diventa il nome della cartella dei risultati
+valuta: EUR
+
+sorgente:
+  tipo: bigquery              # bigquery (standard) | csv (solo test)
+  progetto: searchon-cliente-a
+  dataset: mmm
+  vista: mmm_input_weekly
+  location: EU
+  # progetto_fatturazione: searchon-analytics   # opzionale: progetto che paga le query
+
+colonna_data: settimana
+
+periodo:
+  inizio: 2023-01-02
+  fine: 2025-12-29
+
+kpi:
+  colonna: revenue
+  tipo: revenue               # revenue | non_revenue
+  # revenue_per_kpi: valore_medio_conversione  # solo con non_revenue, se disponibile
+
+canali:
+  - nome: google_search
+    spesa: spend_google_search
+    impression: impr_google_search   # opzionale ma consigliato
+  - nome: meta
+    spesa: spend_meta
+    impression: impr_meta
+
+controlli: [promo_flag]
+
+modello:
+  holdout_settimane: 12       # ultime N settimane escluse dalla stima per la validazione
+  max_lag_adstock: 8
+  roi_prior:                  # prior LogNormal sul ROI; cambiarla solo con motivazione scritta nel RUN
+    media: 0.2
+    sigma: 0.9
+  campionamento:
+    catene: 4
+    adapt: 1000
+    burnin: 500
+    keep: 1000
+    seed: 42
+  rhat_max: 1.2
+
+calcolo:
+  gpu: T4                     # T4 | L4. A100/H100 solo con consenti_gpu_costose: true
+  consenti_gpu_costose: false
+  timeout_minuti: 180         # tempo massimo della stima sulla VM, poi l'esecuzione viene interrotta
+
+ottimizzazione:
+  variazione_max_pct: 30      # variazione massima della spesa per canale nello scenario ottimizzato

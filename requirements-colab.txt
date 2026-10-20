@@ -1,0 +1,6 @@
+# Librerie installate sulla VM Colab da scripts/colab_run.sh (versioni fisse).
+# Aggiornare una versione = aggiornare anche CHANGELOG.md e docs/04_manutenzione.md.
+google-meridian[and-cuda]==2.1.0
+google-cloud-bigquery>=3.25
+db-dtypes>=1.3
+pyyaml>=6.0

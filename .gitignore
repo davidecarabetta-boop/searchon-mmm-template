@@ -1,0 +1,14 @@
+# Ambiente
+.venv/
+__pycache__/
+*.egg-info/
+
+# Dati: mai nel repository (i dati stanno in BigQuery)
+data/
+
+# Output dei run: si versionano report e documentazione, non i file pesanti o grezzi
+outputs/**/modello.pkl
+outputs/**/sessione_colab.ipynb
+outputs/test_sintetico/
+
+.DS_Store

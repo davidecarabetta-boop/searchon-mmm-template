@@ -1,0 +1,7 @@
+# Librerie per il computer di chi lancia il modello (check dati e report).
+# La stima NON gira in locale: gira sulla VM Colab con GPU.
+pandas>=2.2
+pyyaml>=6.0
+matplotlib>=3.8
+google-cloud-bigquery>=3.25
+db-dtypes>=1.3

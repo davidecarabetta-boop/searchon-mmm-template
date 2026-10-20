@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./setup.sh)",
+      "Bash(scripts/colab_run.sh:*)",
+      "Bash(.venv/bin/python -m mmm.check:*)",
+      "Bash(.venv/bin/python -m mmm.report:*)",
+      "Bash(colab sessions)",
+      "Bash(colab status:*)",
+      "Bash(colab stop:*)",
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
+    ],
+    "ask": [
+      "Bash(colab new:*)",
+      "Bash(bq query:*)",
+      "Bash(bq mk:*)",
+      "Bash(git push:*)"
+    ],
+    "deny": [
+      "Read(./data/**)",
+      "Read(./outputs/**/modello.pkl)",
+      "Bash(bq head:*)",
+      "Bash(cat data/*)",
+      "Bash(head data/*)"
+    ]
+  },
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/scripts/verifica_documentazione.py\""
+          }
+        ]
+      }
+    ]
+  }
+}
