@@ -39,6 +39,10 @@ MMM_REMOTE_ROOT=$(mktemp -d) COLAB_BIN=tests/colab_finto.sh scripts/colab_run.sh
 scripts/colab_run.sh configs/test_sintetico.yaml --rapido
 ```
 
+Senza Colab CLI (es. prima di configurare WSL) si può collaudare la stima su GPU dal browser con
+`notebooks/test_gpu_mmm.ipynb`: aprirlo in Colab (File → Apri blocco note → GitHub), runtime T4, Esegui tutto.
+Il notebook incorpora il codice di `src/` al momento della generazione: se `src/` cambia, va rigenerato.
+
 ## Aggiornare le versioni
 
 - Meridian è fissato in `requirements-colab.txt`. Prima di cambiare versione: collaudo sintetico, voce nel CHANGELOG

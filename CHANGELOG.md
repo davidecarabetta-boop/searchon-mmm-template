@@ -4,7 +4,8 @@ Ogni modifica al template va registrata qui (regola in `CLAUDE.md`). Formato: da
 
 ## Non rilasciato
 
-_(nessuna modifica)_
+- `notebooks/test_gpu_mmm.ipynb`: notebook autonomo per collaudare Meridian su GPU Colab dal browser
+  (codice del template incorporato, dati sintetici), utile finché la Colab CLI non è configurata in WSL.
 
 ## 0.1.0 · 2026-10-20
 
